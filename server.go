@@ -2,7 +2,6 @@ package zenrpc
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -11,10 +10,9 @@ import (
 	"unicode"
 
 	"github.com/gorilla/websocket"
+
 	"github.com/semrush/zenrpc/v2/smd"
 )
-
-type contextKey string
 
 const (
 	// defaultBatchMaxLen is default value of BatchMaxLen option in rpc Server options.
@@ -22,15 +20,6 @@ const (
 
 	// defaultTargetURL is default value for SMD target url.
 	defaultTargetURL = "/"
-
-	// context key for http.Request object.
-	requestKey contextKey = "request"
-
-	// context key for namespace.
-	namespaceKey contextKey = "namespace"
-
-	// context key for ID.
-	IDKey contextKey = "id"
 
 	// contentTypeJSON is default content type for HTTP transport.
 	contentTypeJSON = "application/json"
@@ -348,10 +337,4 @@ func ConvertToObject(keys []string, params json.RawMessage) (json.RawMessage, er
 	}
 
 	return buf.Bytes(), nil
-}
-
-// RequestFromContext returns http.Request from context.
-func RequestFromContext(ctx context.Context) (*http.Request, bool) {
-	r, ok := ctx.Value(requestKey).(*http.Request)
-	return r, ok
 }
