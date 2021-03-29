@@ -16,7 +16,7 @@ const (
 
 	zenrpcComment     = "//zenrpc"
 	zenrpcService     = "zenrpc.Service"
-	contextTypeName   = "context.Context"
+	contextTypeName   = "zenrpc.Context"
 	errorTypeName     = "zenrpc.Error"
 	testFileSuffix    = "_test.go"
 	goFileSuffix      = ".go"
@@ -169,7 +169,9 @@ func (pi *PackageInfo) Parse(filename string) error {
 	// collect imports for generated code - only include imports that are explicitly imported in service code (all imports with definitions are more)
 	pi.collectImportsForGeneratedCode()
 
-	pi.parseStructs()
+	if err := pi.parseStructs(); err != nil {
+		return err
+	}
 
 	return nil
 }
