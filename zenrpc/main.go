@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	version = "2.1.1"
+	version = "3.0.0"
 
 	openIssueURL = "https://github.com/semrush/zenrpc/issues/new"
 	githubURL    = "https://github.com/semrush/zenrpc"
