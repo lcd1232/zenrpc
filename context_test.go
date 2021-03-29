@@ -154,3 +154,10 @@ func TestID(t *testing.T) {
 		State: IDStateInt,
 	}, c.ID())
 }
+
+func TestNamespace(t *testing.T) {
+	c := newContext(nil, nil)
+	assert.Zero(t, c.Namespace())
+	c.SetNamespace("auth")
+	assert.Equal(t, "auth", c.Namespace())
+}

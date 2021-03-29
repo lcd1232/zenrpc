@@ -45,11 +45,12 @@ type Context interface {
 }
 
 type basicContext struct {
-	id       ID
-	request  *http.Request
-	response http.ResponseWriter
-	lock     sync.RWMutex
-	store    map[string]interface{}
+	id        ID
+	namespace string
+	request   *http.Request
+	response  http.ResponseWriter
+	lock      sync.RWMutex
+	store     map[string]interface{}
 }
 
 func (c *basicContext) ID() ID {
@@ -61,11 +62,11 @@ func (c *basicContext) SetID(id ID) {
 }
 
 func (c *basicContext) Namespace() string {
-	panic("implement me")
+	return c.namespace
 }
 
 func (c *basicContext) SetNamespace(namespace string) {
-	panic("implement me")
+	c.namespace = namespace
 }
 
 func (c *basicContext) Request() *http.Request {
