@@ -1,7 +1,7 @@
 package subarithservice
 
 import (
-	"github.com/semrush/zenrpc/v3/testdata/objects"
+	"github.com/lcd1232/zenrpc/v3/testdata/objects"
 	"time"
 )
 

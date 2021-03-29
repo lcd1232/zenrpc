@@ -5,10 +5,10 @@ package testdata
 import (
 	"encoding/json"
 
-	"github.com/semrush/zenrpc/v3"
-	"github.com/semrush/zenrpc/v3/smd"
+	"github.com/lcd1232/zenrpc/v3"
+	"github.com/lcd1232/zenrpc/v3/smd"
 
-	"github.com/semrush/zenrpc/v3/testdata/model"
+	"github.com/lcd1232/zenrpc/v3/testdata/model"
 )
 
 var RPC = struct {

@@ -7,14 +7,14 @@ import (
 	"os"
 	"time"
 
-	"github.com/semrush/zenrpc/v3/parser"
+	"github.com/lcd1232/zenrpc/v3/parser"
 )
 
 const (
 	version = "3.0.1"
 
-	openIssueURL = "https://github.com/semrush/zenrpc/issues/new"
-	githubURL    = "https://github.com/semrush/zenrpc"
+	openIssueURL = "https://github.com/lcd1232/zenrpc/issues/new"
+	githubURL    = "https://github.com/lcd1232/zenrpc"
 )
 
 func main() {

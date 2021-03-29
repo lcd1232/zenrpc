@@ -3,7 +3,7 @@ package main
 import (
 	"text/template"
 
-	"github.com/semrush/zenrpc/v3/parser"
+	"github.com/lcd1232/zenrpc/v3/parser"
 )
 
 var (
@@ -58,8 +58,8 @@ package {{.PackageName}}
 import (
 	"encoding/json"
 
-	"github.com/semrush/zenrpc/v3"
-	"github.com/semrush/zenrpc/v3/smd"
+	"github.com/lcd1232/zenrpc/v3"
+	"github.com/lcd1232/zenrpc/v3/smd"
 
 	{{ range .ImportsIncludedToGeneratedCode}}
 		{{if .Name}}{{.Name.Name}} {{end}}{{.Path.Value}}

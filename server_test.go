@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/semrush/zenrpc/v3"
-	"github.com/semrush/zenrpc/v3/testdata"
+	"github.com/lcd1232/zenrpc/v3"
+	"github.com/lcd1232/zenrpc/v3/testdata"
 )
 
 var rpc = zenrpc.NewServer(zenrpc.Options{BatchMaxLen: 5, AllowCORS: true})

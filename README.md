@@ -1,6 +1,6 @@
 # zenrpc: JSON-RPC 2.0 Server Implementation with SMD support
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/semrush/zenrpc)](https://goreportcard.com/report/github.com/semrush/zenrpc) [![Build Status](https://travis-ci.org/semrush/zenrpc.svg?branch=master)](https://travis-ci.org/semrush/zenrpc) [![codecov](https://codecov.io/gh/semrush/zenrpc/branch/master/graph/badge.svg)](https://codecov.io/gh/semrush/zenrpc) [![GoDoc](https://godoc.org/github.com/semrush/zenrpc?status.svg)](https://godoc.org/github.com/semrush/zenrpc)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lcd1232/zenrpc)](https://goreportcard.com/report/github.com/lcd1232/zenrpc) [![Build Status](https://travis-ci.org/lcd1232/zenrpc.svg?branch=master)](https://travis-ci.org/lcd1232/zenrpc) [![codecov](https://codecov.io/gh/lcd1232/zenrpc/branch/master/graph/badge.svg)](https://codecov.io/gh/lcd1232/zenrpc) [![GoDoc](https://godoc.org/github.com/lcd1232/zenrpc?status.svg)](https://godoc.org/github.com/lcd1232/zenrpc)
 
 `zenrpc` is a JSON-RPC 2.0 server library with [Service Mapping Description](https://dojotoolkit.org/reference-guide/1.8/dojox/rpc/smd.html) support. 
 It's built on top of `go generate` instead of reflection. 
@@ -9,8 +9,8 @@ It's built on top of `go generate` instead of reflection.
 
 ```Service is struct with RPC methods, service represents RPC namespace.```
 
-  1. Install zenrpc generator `go get github.com/semrush/zenrpc/v2/zenrpc`
-  1. Import `github.com/semrush/zenrpc/v2` into our code with rpc service.
+  1. Install zenrpc generator `go get github.com/lcd1232/zenrpc/v3/zenrpc`
+  1. Import `github.com/lcd1232/zenrpc/v3` into our code with rpc service.
   1. Add trailing comment `//zenrpc` to your service or embed `zenrpc.Service` into your service struct.
   1. Write your funcs almost as usual.
   1. Do not forget run `go generate` or `zenrpc` for magic
@@ -31,22 +31,21 @@ package main
 
 import (
 	"flag"
-	"context"
 	"errors"
 	"math"
 	"log"
 	"net/http"
 	"os"	
 	
-	"github.com/semrush/zenrpc/v2"
-	"github.com/semrush/zenrpc/v2/testdata"
+	"github.com/lcd1232/zenrpc/v3"
+	"github.com/lcd1232/zenrpc/v3/testdata"
 )
 
 type ArithService struct{ zenrpc.Service }
 
 // Sum sums two digits and returns error with error code as result and IP from context.
-func (as ArithService) Sum(ctx context.Context, a, b int) (bool, *zenrpc.Error) {
-	r, _ := zenrpc.RequestFromContext(ctx)
+func (as ArithService) Sum(c zenrpc.Context, a, b int) (bool, *zenrpc.Error) {
+	r := c.Request()
 
 	return true, zenrpc.NewStringError(a+b, r.Host)
 }

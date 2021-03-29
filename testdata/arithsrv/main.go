@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/lcd1232/zenrpc/v3"
+	"github.com/lcd1232/zenrpc/v3/testdata"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	"github.com/semrush/zenrpc/v3"
-	"github.com/semrush/zenrpc/v3/testdata"
 )
 
 func main() {

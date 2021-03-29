@@ -1,7 +1,7 @@
 package testdata
 
 import (
-	"github.com/semrush/zenrpc/v3"
+	"github.com/lcd1232/zenrpc/v3"
 )
 
 type Group struct {
