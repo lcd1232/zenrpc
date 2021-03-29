@@ -5,7 +5,6 @@ go 1.13
 require (
 	github.com/gorilla/websocket v1.4.2
 	github.com/prometheus/client_golang v1.7.1
-	github.com/semrush/zenrpc/v2 v2.1.0
 	github.com/smartystreets/goconvey v1.6.4
 	github.com/stretchr/testify v1.4.0
 	github.com/thoas/go-funk v0.6.0
