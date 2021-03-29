@@ -3,14 +3,15 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"github.com/semrush/zenrpc/v2/parser"
 	"go/format"
 	"os"
 	"time"
+
+	"github.com/semrush/zenrpc/v3/parser"
 )
 
 const (
-	version = "3.0.0"
+	version = "3.0.1"
 
 	openIssueURL = "https://github.com/semrush/zenrpc/issues/new"
 	githubURL    = "https://github.com/semrush/zenrpc"

@@ -3,13 +3,12 @@
 package subarithservice
 
 import (
-	"context"
 	"encoding/json"
 
-	"github.com/semrush/zenrpc/v2"
-	"github.com/semrush/zenrpc/v2/smd"
+	"github.com/semrush/zenrpc/v3"
+	"github.com/semrush/zenrpc/v3/smd"
 
-	"github.com/semrush/zenrpc/v2/testdata/model"
+	"github.com/semrush/zenrpc/v3/testdata/model"
 )
 
 var RPC = struct {
@@ -507,7 +506,7 @@ func (SubArithService) SMD() smd.ServiceInfo {
 }
 
 // Invoke is as generated code from zenrpc cmd
-func (s SubArithService) Invoke(ctx context.Context, method string, params json.RawMessage) zenrpc.Response {
+func (s SubArithService) Invoke(c zenrpc.Context, method string, params json.RawMessage) zenrpc.Response {
 	resp := zenrpc.Response{}
 	var err error
 
@@ -530,7 +529,7 @@ func (s SubArithService) Invoke(ctx context.Context, method string, params json.
 			}
 		}
 
-		resp.Set(s.Sum(ctx, args.A, args.B))
+		resp.Set(s.Sum(c, args.A, args.B))
 
 	case RPC.SubArithService.Positive:
 		resp.Set(s.Positive())

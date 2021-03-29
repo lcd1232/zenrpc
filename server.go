@@ -11,7 +11,7 @@ import (
 
 	"github.com/gorilla/websocket"
 
-	"github.com/semrush/zenrpc/v2/smd"
+	"github.com/semrush/zenrpc/v3/smd"
 )
 
 const (
