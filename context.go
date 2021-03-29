@@ -42,6 +42,9 @@ type Context interface {
 
 	// Set saves data in the context.
 	Set(key string, value interface{})
+
+	// Copy returns copy of request
+	Copy() Context
 }
 
 type basicContext struct {
@@ -119,6 +122,23 @@ func (c *basicContext) Set(key string, value interface{}) {
 	}
 
 	c.store[key] = value
+}
+
+func (c *basicContext) Copy() Context {
+	c.lock.RLock()
+	defer c.lock.RUnlock()
+	copyContext := &basicContext{
+		id:        c.id,
+		namespace: c.namespace,
+		request:   c.request,
+		response:  c.response,
+		store:     make(map[string]interface{}, len(c.store)),
+	}
+	for key := range c.store {
+		copyContext.store[key] = c.store[key]
+	}
+
+	return copyContext
 }
 
 func newContext(request *http.Request, response http.ResponseWriter) *basicContext {

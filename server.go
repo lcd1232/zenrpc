@@ -176,7 +176,7 @@ func (s Server) processBatch(c Context, requests []Request) []Response {
 
 	for _, req := range requests {
 		// running request in goroutine
-		go func(req Request) {
+		go func(c Context, req Request) {
 			if req.ID == nil {
 				// ignoring response if request is notification
 				wg.Done()
@@ -185,7 +185,7 @@ func (s Server) processBatch(c Context, requests []Request) []Response {
 				respChan <- s.processRequest(c, req)
 				wg.Done()
 			}
-		}(req)
+		}(c.Copy(), req)
 	}
 
 	// waiting to complete
@@ -350,41 +350,8 @@ func ConvertToObject(keys []string, params json.RawMessage) (json.RawMessage, er
 	return buf.Bytes(), nil
 }
 
-// newRequestContext creates new context with http.Request.
-func newRequestContext(ctx context.Context, req *http.Request) context.Context {
-	return context.WithValue(ctx, requestKey, req)
-}
-
 // RequestFromContext returns http.Request from context.
 func RequestFromContext(ctx context.Context) (*http.Request, bool) {
 	r, ok := ctx.Value(requestKey).(*http.Request)
 	return r, ok
-}
-
-// newNamespaceContext creates new context with current method namespace.
-func newNamespaceContext(ctx context.Context, namespace string) context.Context {
-	return context.WithValue(ctx, namespaceKey, namespace)
-}
-
-// NamespaceFromContext returns method's namespace from context.
-func NamespaceFromContext(ctx context.Context) string {
-	if r, ok := ctx.Value(namespaceKey).(string); ok {
-		return r
-	}
-
-	return ""
-}
-
-// newIDContext creates new context with current request ID.
-func newIDContext(ctx context.Context, ID *json.RawMessage) context.Context {
-	return context.WithValue(ctx, IDKey, ID)
-}
-
-// IDFromContext returns request ID from context.
-func IDFromContext(ctx context.Context) *json.RawMessage {
-	if r, ok := ctx.Value(IDKey).(*json.RawMessage); ok {
-		return r
-	}
-
-	return nil
 }

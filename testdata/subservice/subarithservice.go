@@ -1,18 +1,18 @@
 package subarithservice
 
 import (
-	"context"
 	"errors"
+	"math"
+
 	"github.com/semrush/zenrpc/v2"
 	"github.com/semrush/zenrpc/v2/testdata/model"
-	"math"
 )
 
 type SubArithService struct{} //zenrpc
 
 // Sum sums two digits and returns error with error code as result and IP from context.
-func (as SubArithService) Sum(ctx context.Context, a, b int) (bool, *zenrpc.Error) {
-	r, _ := zenrpc.RequestFromContext(ctx)
+func (as SubArithService) Sum(c zenrpc.Context, a, b int) (bool, *zenrpc.Error) {
+	r := c.Request()
 
 	return true, zenrpc.NewStringError(a+b, r.Host)
 }

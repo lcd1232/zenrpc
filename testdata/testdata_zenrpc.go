@@ -3,6 +3,7 @@
 package testdata
 
 import (
+	"context"
 	"encoding/json"
 
 	"github.com/semrush/zenrpc/v2"
