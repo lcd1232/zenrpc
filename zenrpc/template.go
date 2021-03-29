@@ -56,7 +56,6 @@ package {{.PackageName}}
 
 import (
 	"encoding/json"
-	"context"
 
 	"github.com/semrush/zenrpc/v2"
 	"github.com/semrush/zenrpc/v2/smd"
