@@ -49,7 +49,7 @@ func (i *id) State() IDState {
 	return i.state
 }
 
-func newID(rawID *json.RawMessage) (ID, error) {
+func NewID(rawID *json.RawMessage) (ID, error) {
 	if rawID == nil {
 		return &id{
 			rawID: rawID,

@@ -217,7 +217,7 @@ func (s Server) processRequest(c Context, req Request) Response {
 	c.SetNamespace(namespace)
 
 	// set id to context
-	id, err := newID(req.ID)
+	id, err := NewID(req.ID)
 	if err != nil {
 		return NewResponseError(req.ID, InvalidParams, "invalid id", nil)
 	}

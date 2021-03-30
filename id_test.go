@@ -68,7 +68,7 @@ func Test_newID(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := newID(tt.args.rawID)
+			got, err := NewID(tt.args.rawID)
 			if tt.wantErr {
 				require.Error(t, err)
 				return
