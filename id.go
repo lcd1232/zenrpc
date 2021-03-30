@@ -13,58 +13,82 @@ const (
 	IDStateNull
 )
 
-type ID struct {
-	rawID  *json.RawMessage
-	Int    int64
-	Float  float64
-	String string
-	State  IDState
+type ID interface {
+	RawMessage() *json.RawMessage
+	Int() int64
+	Float() float64
+	String() string
+	State() IDState
 }
 
-func (i *ID) RawMessage() *json.RawMessage {
+type id struct {
+	rawID  *json.RawMessage
+	int    int64
+	float  float64
+	string string
+	state  IDState
+}
+
+func (i *id) RawMessage() *json.RawMessage {
 	return i.rawID
+}
+
+func (i *id) Int() int64 {
+	return i.int
+}
+
+func (i *id) Float() float64 {
+	return i.float
+}
+
+func (i *id) String() string {
+	return i.string
+}
+
+func (i *id) State() IDState {
+	return i.state
 }
 
 func newID(rawID *json.RawMessage) (ID, error) {
 	if rawID == nil {
-		return ID{
+		return &id{
 			rawID: rawID,
-			State: IDStateNull,
+			state: IDStateNull,
 		}, nil
 	}
 
 	if len(*rawID) > 2 && (*rawID)[0] == '"' && (*rawID)[len(*rawID)-1] == '"' {
-		return ID{
+		return &id{
 			rawID:  rawID,
-			State:  IDStateString,
-			String: string((*rawID)[1 : len(*rawID)-1]),
+			state:  IDStateString,
+			string: string((*rawID)[1 : len(*rawID)-1]),
 		}, nil
 	}
 
-	var id json.Number
-	if err := json.Unmarshal(*rawID, &id); err != nil {
-		return ID{}, err
+	var number json.Number
+	if err := json.Unmarshal(*rawID, &number); err != nil {
+		return &id{}, err
 	}
 
-	a, err := id.Int64()
+	a, err := number.Int64()
 	if err == nil {
-		return ID{
+		return &id{
 			rawID: rawID,
-			State: IDStateInt,
-			Int:   a,
+			state: IDStateInt,
+			int:   a,
 		}, nil
 	}
 
-	f, err := id.Float64()
+	f, err := number.Float64()
 	if err == nil {
-		return ID{
+		return &id{
 			rawID: rawID,
-			State: IDStateFloat,
-			Float: f,
+			state: IDStateFloat,
+			float: f,
 		}, nil
 	}
 
-	return ID{
+	return &id{
 		rawID: rawID,
 	}, err
 }

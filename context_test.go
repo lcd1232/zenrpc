@@ -145,13 +145,13 @@ func TestCookies(t *testing.T) {
 func TestID(t *testing.T) {
 	c := NewContext(nil, nil)
 	assert.Zero(t, c.ID())
-	c.SetID(ID{
-		Int:   10,
-		State: IDStateInt,
+	c.SetID(&id{
+		int:   10,
+		state: IDStateInt,
 	})
-	assert.Equal(t, ID{
-		Int:   10,
-		State: IDStateInt,
+	assert.Equal(t, id{
+		int:   10,
+		state: IDStateInt,
 	}, c.ID())
 }
 

@@ -23,7 +23,7 @@ func Test_newID(t *testing.T) {
 	tests := []struct {
 		name    string
 		args    args
-		want    ID
+		want    id
 		wantErr bool
 	}{
 		{
@@ -31,9 +31,9 @@ func Test_newID(t *testing.T) {
 			args: args{
 				rawID: getRawMessage([]byte(`25`)),
 			},
-			want: ID{
-				Int:   25,
-				State: IDStateInt,
+			want: id{
+				int:   25,
+				state: IDStateInt,
 			},
 		},
 		{
@@ -41,9 +41,9 @@ func Test_newID(t *testing.T) {
 			args: args{
 				rawID: getRawMessage([]byte(`"25"`)),
 			},
-			want: ID{
-				String: "25",
-				State:  IDStateString,
+			want: id{
+				string: "25",
+				state:  IDStateString,
 			},
 		},
 		{
@@ -51,9 +51,9 @@ func Test_newID(t *testing.T) {
 			args: args{
 				rawID: getRawMessage([]byte(`25.25`)),
 			},
-			want: ID{
-				Float: 25.25,
-				State: IDStateFloat,
+			want: id{
+				float: 25.25,
+				state: IDStateFloat,
 			},
 		},
 		{
@@ -61,8 +61,8 @@ func Test_newID(t *testing.T) {
 			args: args{
 				rawID: nil,
 			},
-			want: ID{
-				State: IDStateNull,
+			want: id{
+				state: IDStateNull,
 			},
 		},
 	}
@@ -74,7 +74,10 @@ func Test_newID(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			assert.Equal(t, tt.want, got)
+			assert.Equal(t, tt.want.state, got.State())
+			assert.Equal(t, tt.want.int, got.Int())
+			assert.Equal(t, tt.want.float, got.Float())
+			assert.Equal(t, tt.want.string, got.String())
 		})
 	}
 }
@@ -129,12 +132,12 @@ func TestID_RawMessage(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			i := &ID{
+			i := &id{
 				rawID:  tt.fields.rawID,
-				Int:    tt.fields.Int,
-				Float:  tt.fields.Float,
-				String: tt.fields.String,
-				State:  tt.fields.State,
+				int:    tt.fields.Int,
+				float:  tt.fields.Float,
+				string: tt.fields.String,
+				state:  tt.fields.State,
 			}
 			got := i.RawMessage()
 			assert.Equal(t, tt.want, got)
