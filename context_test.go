@@ -149,7 +149,7 @@ func TestID(t *testing.T) {
 		int:   10,
 		state: IDStateInt,
 	})
-	assert.Equal(t, id{
+	assert.Equal(t, &id{
 		int:   10,
 		state: IDStateInt,
 	}, c.ID())
