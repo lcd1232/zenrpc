@@ -119,7 +119,7 @@ func TestSetCookie(t *testing.T) {
 
 	c := NewContext(nil, resp)
 	c.SetCookie(cookie)
-	require.Len(t, c.response.Header().Values("Set-Cookie"), 1)
+	require.Len(t, c.Response().Header().Values("Set-Cookie"), 1)
 }
 
 func TestCookies(t *testing.T) {
