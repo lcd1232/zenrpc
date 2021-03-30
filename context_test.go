@@ -10,7 +10,7 @@ import (
 )
 
 func TestStorage(t *testing.T) {
-	c := newContext(nil, nil)
+	c := NewContext(nil, nil)
 	c.Set("name", "John Doe")
 	assert.Equal(t, "John Doe", c.Get("name"))
 }
@@ -19,13 +19,13 @@ func TestRequest(t *testing.T) {
 	r := &http.Request{
 		Host: "example.com",
 	}
-	c := newContext(r, nil)
+	c := NewContext(r, nil)
 	assert.Equal(t, r, c.Request())
 }
 
 func TestResponse(t *testing.T) {
 	r := &httptest.ResponseRecorder{}
-	c := newContext(nil, r)
+	c := NewContext(nil, r)
 	assert.Equal(t, r, c.Response())
 }
 
@@ -88,7 +88,7 @@ func TestRealIP(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := newContext(tt.fields.request, nil)
+			c := NewContext(tt.fields.request, nil)
 			assert.Equal(t, tt.want, c.RealIP())
 		})
 	}
@@ -104,7 +104,7 @@ func TestCookie(t *testing.T) {
 	}
 	r.AddCookie(cookie)
 
-	c := newContext(r, nil)
+	c := NewContext(r, nil)
 	got, err := c.Cookie("foo")
 	require.NoError(t, err)
 	assert.Equal(t, cookie, got)
@@ -117,7 +117,7 @@ func TestSetCookie(t *testing.T) {
 	}
 	resp := httptest.NewRecorder()
 
-	c := newContext(nil, resp)
+	c := NewContext(nil, resp)
 	c.SetCookie(cookie)
 	require.Len(t, c.response.Header().Values("Set-Cookie"), 1)
 }
@@ -138,12 +138,12 @@ func TestCookies(t *testing.T) {
 	r.AddCookie(cookie)
 	r.AddCookie(cookie2)
 
-	c := newContext(r, nil)
+	c := NewContext(r, nil)
 	require.Len(t, c.Cookies(), 2)
 }
 
 func TestID(t *testing.T) {
-	c := newContext(nil, nil)
+	c := NewContext(nil, nil)
 	assert.Zero(t, c.ID())
 	c.SetID(ID{
 		Int:   10,
@@ -156,7 +156,7 @@ func TestID(t *testing.T) {
 }
 
 func TestNamespace(t *testing.T) {
-	c := newContext(nil, nil)
+	c := NewContext(nil, nil)
 	assert.Zero(t, c.Namespace())
 	c.SetNamespace("auth")
 	assert.Equal(t, "auth", c.Namespace())

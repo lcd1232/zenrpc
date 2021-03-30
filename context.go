@@ -141,7 +141,7 @@ func (c *basicContext) Copy() Context {
 	return copyContext
 }
 
-func newContext(request *http.Request, response http.ResponseWriter) *basicContext {
+func NewContext(request *http.Request, response http.ResponseWriter) Context {
 	return &basicContext{
 		request:  request,
 		response: response,

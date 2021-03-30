@@ -61,7 +61,7 @@ func (s Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		s.printf("read request body failed with err=%v", err)
 		data = NewResponseError(nil, ParseError, "", nil)
 	} else {
-		data = s.process(newContext(r, w), b)
+		data = s.process(NewContext(r, w), b)
 	}
 
 	// if responses is empty -> all requests are notifications -> exit immediately
@@ -107,7 +107,7 @@ func (s Server) ServeWS(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 
-		c := newContext(r, w)
+		c := NewContext(r, w)
 
 		data, err := s.Do(c, message)
 		if err != nil {
