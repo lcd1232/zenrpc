@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	version = "3.0.3"
+	version = "3.0.4"
 
 	openIssueURL = "https://github.com/lcd1232/zenrpc/issues/new"
 	githubURL    = "https://github.com/lcd1232/zenrpc"
