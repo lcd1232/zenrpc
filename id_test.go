@@ -78,3 +78,66 @@ func Test_newID(t *testing.T) {
 		})
 	}
 }
+
+func TestID_RawMessage(t *testing.T) {
+	type fields struct {
+		rawID  *json.RawMessage
+		Int    int64
+		Float  float64
+		String string
+		State  IDState
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   *json.RawMessage
+	}{
+		{
+			name: "string",
+			fields: fields{
+				rawID:  getRawMessage([]byte(`"john"`)),
+				String: "john",
+				State:  IDStateString,
+			},
+			want: getRawMessage([]byte(`"john"`)),
+		},
+		{
+			name: "int",
+			fields: fields{
+				rawID: getRawMessage([]byte(`15`)),
+				Int:   15,
+				State: IDStateInt,
+			},
+			want: getRawMessage([]byte(`15`)),
+		},
+		{
+			name: "float",
+			fields: fields{
+				rawID: getRawMessage([]byte(`26.9`)),
+				Float: 26.9,
+				State: IDStateFloat,
+			},
+			want: getRawMessage([]byte(`26.9`)),
+		},
+		{
+			name: "null",
+			fields: fields{
+				State: IDStateNull,
+			},
+			want: nil,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			i := &ID{
+				rawID:  tt.fields.rawID,
+				Int:    tt.fields.Int,
+				Float:  tt.fields.Float,
+				String: tt.fields.String,
+				State:  tt.fields.State,
+			}
+			got := i.RawMessage()
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}

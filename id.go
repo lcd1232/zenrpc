@@ -1,6 +1,8 @@
 package zenrpc
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type IDState int
 
@@ -12,21 +14,28 @@ const (
 )
 
 type ID struct {
+	rawID  *json.RawMessage
 	Int    int64
 	Float  float64
 	String string
 	State  IDState
 }
 
+func (i *ID) RawMessage() *json.RawMessage {
+	return i.rawID
+}
+
 func newID(rawID *json.RawMessage) (ID, error) {
 	if rawID == nil {
 		return ID{
+			rawID: rawID,
 			State: IDStateNull,
 		}, nil
 	}
 
 	if len(*rawID) > 2 && (*rawID)[0] == '"' && (*rawID)[len(*rawID)-1] == '"' {
 		return ID{
+			rawID:  rawID,
 			State:  IDStateString,
 			String: string((*rawID)[1 : len(*rawID)-1]),
 		}, nil
@@ -40,6 +49,7 @@ func newID(rawID *json.RawMessage) (ID, error) {
 	a, err := id.Int64()
 	if err == nil {
 		return ID{
+			rawID: rawID,
 			State: IDStateInt,
 			Int:   a,
 		}, nil
@@ -48,10 +58,13 @@ func newID(rawID *json.RawMessage) (ID, error) {
 	f, err := id.Float64()
 	if err == nil {
 		return ID{
+			rawID: rawID,
 			State: IDStateFloat,
 			Float: f,
 		}, nil
 	}
 
-	return ID{}, err
+	return ID{
+		rawID: rawID,
+	}, err
 }
