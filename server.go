@@ -153,6 +153,13 @@ func (s *Server) process(c Context, message json.RawMessage) interface{} {
 	return nil
 }
 
+func (s *Server) Group(m ...MiddlewareFunc) *Group {
+	g := &Group{}
+	g.Use(m...)
+
+	return g
+}
+
 // processBatch process batch requests with context.
 func (s Server) processBatch(c Context, requests []Request) []Response {
 	reqLen := len(requests)
