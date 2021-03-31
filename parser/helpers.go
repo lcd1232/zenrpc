@@ -47,20 +47,13 @@ func GetDependenciesAstFiles(filename string) ([]*ast.File, error) {
 		return nil, err
 	}
 	astFiles := []*ast.File{}
-	done := map[string]bool{}
+	done := make(map[string]struct{})
 	for _, pkg := range pkgs {
 		if _, ok := done[pkg.PkgPath]; ok {
 			continue
 		}
 		astFiles = append(astFiles, pkg.Syntax...)
-		done[pkg.PkgPath] = true
-		for _, childPack := range pkg.Imports {
-			if _, ok := done[childPack.PkgPath]; ok {
-				continue
-			}
-			astFiles = append(astFiles, childPack.Syntax...)
-			done[childPack.PkgPath] = true
-		}
+		done[pkg.PkgPath] = struct{}{}
 	}
 	return astFiles, nil
 }
