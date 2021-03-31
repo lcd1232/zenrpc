@@ -37,6 +37,11 @@ func (Service) SMD() smd.ServiceInfo {
 						Type:        smd.Integer,
 					},
 				},
+				Returns: smd.JSONSchema{
+					Description: ``,
+					Optional:    false,
+					Type:        smd.Integer,
+				},
 			},
 		},
 	}
