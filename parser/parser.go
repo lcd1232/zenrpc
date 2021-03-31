@@ -5,6 +5,7 @@ import (
 	"go/ast"
 	"go/token"
 	"path/filepath"
+	"regexp"
 	"strconv"
 	"strings"
 	"unicode"
@@ -22,6 +23,8 @@ const (
 	goFileSuffix      = ".go"
 	zenrpcMagicPrefix = "//zenrpc:"
 )
+
+var reZenrpcMethodName = regexp.MustCompile(`^//zenrpc:(.+)$`)
 
 // PackageInfo represents struct info for XXX_zenrpc.go file generation
 type PackageInfo struct {
@@ -234,11 +237,19 @@ func (pi *PackageInfo) parseMethods(f *ast.File) error {
 		if !ok || fdecl.Recv == nil {
 			continue
 		}
+		lowerCaseName := strings.ToLower(fdecl.Name.Name)
+		if fdecl.Doc != nil {
+			for _, commentLine := range fdecl.Doc.List {
+				if reZenrpcMethodName.MatchString(commentLine.Text) {
+					lowerCaseName = reZenrpcMethodName.FindStringSubmatch(commentLine.Text)[1]
+				}
+			}
+		}
 
 		m := Method{
 			FuncDecl:      fdecl.Type,
 			Name:          fdecl.Name.Name,
-			LowerCaseName: strings.ToLower(fdecl.Name.Name),
+			LowerCaseName: lowerCaseName,
 			Args:          []Arg{},
 			DefaultValues: make(map[string]DefaultValue),
 			Returns:       []Return{},

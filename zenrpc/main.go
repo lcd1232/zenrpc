@@ -92,19 +92,28 @@ func generateFile(outputFileName string, pi *parser.PackageInfo) error {
 	}
 	defer file.Close()
 
-	output := new(bytes.Buffer)
-	if err := serviceTemplate.Execute(output, pi); err != nil {
-		return err
-	}
-
-	source, err := format.Source(output.Bytes())
+	b, err := generateSourceCode(pi)
 	if err != nil {
 		return err
 	}
 
-	if _, err = file.Write(source); err != nil {
+	if _, err = file.Write(b); err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func generateSourceCode(pi *parser.PackageInfo) ([]byte, error) {
+	output := new(bytes.Buffer)
+	if err := serviceTemplate.Execute(output, pi); err != nil {
+		return nil, err
+	}
+
+	source, err := format.Source(output.Bytes())
+	if err != nil {
+		return nil, err
+	}
+
+	return source, nil
 }
