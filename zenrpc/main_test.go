@@ -21,6 +21,11 @@ var testCases = []struct {
 		filename:     "../testdata/content1/content.go",
 		wantFilename: "../testdata/want1.txt",
 	},
+	{
+		name:         "2",
+		filename:     "../testdata/content2/content.go",
+		wantFilename: "../testdata/want2.txt",
+	},
 }
 
 func TestGenerator(t *testing.T) {
