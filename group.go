@@ -8,3 +8,7 @@ type Group struct {
 func (g *Group) Use(m ...MiddlewareFunc) {
 	g.middleware = append(g.middleware, m...)
 }
+
+func (g *Group) RegisterMethod(method string, h HandlerFunc) {
+
+}
